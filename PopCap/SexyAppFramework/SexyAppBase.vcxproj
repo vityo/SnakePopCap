@@ -1,0 +1,548 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <SccProjectName>"$/WinAlch", YKBAAAAA</SccProjectName>
+    <SccLocalPath>..\winalch</SccLocalPath>
+    <ProjectGuid>{E80FE2D4-6D50-4472-853C-C2CB1846B2FA}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\DebugVC6\</OutDir>
+    <IntDir>.\DebugVC6\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\ReleaseVC6\</OutDir>
+    <IntDir>.\ReleaseVC6\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;_VISUALC_;_JPEGLIB_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\DebugVC6\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\DebugVC6\SexyAppBase.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\DebugVC6\</ObjectFileName>
+      <ProgramDataBaseFileName>.\DebugVC6\</ProgramDataBaseFileName>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\DebugVC6\SexyAppBase.bsc</OutputFile>
+    </Bscmake>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\DebugVC6\SexyAppBase.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OmitFramePointers>false</OmitFramePointers>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;_VISUALC_;_JPEGLIB_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\ReleaseVC6\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\ReleaseVC6\SexyAppBase.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\ReleaseVC6\</ObjectFileName>
+      <ProgramDataBaseFileName>.\ReleaseVC6\</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\ReleaseVC6\SexyAppBase.bsc</OutputFile>
+    </Bscmake>
+    <Lib>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\ReleaseVC6\SexyAppBase.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\ImageLib\ImageLib.cpp" />
+    <ClCompile Include="..\ImageLib\jpeg\cdjpeg.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jcapimin.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jcapistd.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jccoefct.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jccolor.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jcdctmgr.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jchuff.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jcinit.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jcmainct.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jcmarker.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jcmaster.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jcomapi.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jcparam.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jcphuff.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jcprepct.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jcsample.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jctrans.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdapimin.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdapistd.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdatadst.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdatasrc.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdcoefct.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdcolor.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jddctmgr.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdhuff.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdinput.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdmainct.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdmarker.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdmaster.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdmerge.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdphuff.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdpostct.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdsample.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jdtrans.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jerror.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jfdctflt.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jfdctfst.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jfdctint.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jidctflt.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jidctfst.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jidctint.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jidctred.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jmemmgr.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jmemnobs.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jquant1.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jquant2.c" />
+    <ClCompile Include="..\ImageLib\jpeg\jutils.c" />
+    <ClCompile Include="..\ImageLib\jpeg\rdbmp.c" />
+    <ClCompile Include="..\ImageLib\jpeg\rdcolmap.c" />
+    <ClCompile Include="..\ImageLib\jpeg\rdgif.c" />
+    <ClCompile Include="..\ImageLib\jpeg\rdppm.c" />
+    <ClCompile Include="..\ImageLib\jpeg\rdrle.c" />
+    <ClCompile Include="..\ImageLib\jpeg\rdswitch.c" />
+    <ClCompile Include="..\ImageLib\jpeg\rdtarga.c" />
+    <ClCompile Include="..\ImageLib\jpeg\transupp.c" />
+    <ClCompile Include="..\ImageLib\jpeg\wrbmp.c" />
+    <ClCompile Include="..\ImageLib\jpeg\wrgif.c" />
+    <ClCompile Include="..\ImageLib\jpeg\wrppm.c" />
+    <ClCompile Include="..\ImageLib\jpeg\wrrle.c" />
+    <ClCompile Include="..\ImageLib\jpeg\wrtarga.c" />
+    <ClCompile Include="..\ImageLib\png\png.c" />
+    <ClCompile Include="..\ImageLib\png\pngerror.c" />
+    <ClCompile Include="..\ImageLib\png\pngget.c" />
+    <ClCompile Include="..\ImageLib\png\pngmem.c" />
+    <ClCompile Include="..\ImageLib\png\pngpread.c" />
+    <ClCompile Include="..\ImageLib\png\pngread.c" />
+    <ClCompile Include="..\ImageLib\png\pngrio.c" />
+    <ClCompile Include="..\ImageLib\png\pngrtran.c" />
+    <ClCompile Include="..\ImageLib\png\pngrutil.c" />
+    <ClCompile Include="..\ImageLib\png\pngset.c" />
+    <ClCompile Include="..\ImageLib\png\pngtrans.c" />
+    <ClCompile Include="..\ImageLib\png\pngvcrd.c" />
+    <ClCompile Include="..\ImageLib\png\pngwio.c" />
+    <ClCompile Include="..\ImageLib\png\pngwrite.c" />
+    <ClCompile Include="..\ImageLib\png\pngwtran.c" />
+    <ClCompile Include="..\ImageLib\png\pngwutil.c" />
+    <ClCompile Include="..\ImageLib\zlib\adler32.c" />
+    <ClCompile Include="..\ImageLib\zlib\compress.c" />
+    <ClCompile Include="..\ImageLib\zlib\crc32.c" />
+    <ClCompile Include="..\ImageLib\zlib\deflate.c" />
+    <ClCompile Include="..\ImageLib\zlib\gzio.c" />
+    <ClCompile Include="..\ImageLib\zlib\infblock.c" />
+    <ClCompile Include="..\ImageLib\zlib\infcodes.c" />
+    <ClCompile Include="..\ImageLib\zlib\inffast.c" />
+    <ClCompile Include="..\ImageLib\zlib\inflate.c" />
+    <ClCompile Include="..\ImageLib\zlib\inftrees.c" />
+    <ClCompile Include="..\ImageLib\zlib\infutil.c" />
+    <ClCompile Include="..\ImageLib\zlib\trees.c" />
+    <ClCompile Include="..\ImageLib\zlib\uncompr.c" />
+    <ClCompile Include="..\ImageLib\zlib\zutil.c" />
+    <ClCompile Include="BassLoader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="BassMusicInterface.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Buffer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ButtonWidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Checkbox.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Common.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="CritSect.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="D3DInterface.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="D3DTester.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DDImage.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DDInterface.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DescParser.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Dialog.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DialogButton.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DirectXErrorString.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DSoundInstance.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DSoundManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="EditWidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Flags.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FModLoader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FModMusicInterface.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FModSoundInstance.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FModSoundManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GraphicsBuild.cpp" />
+    <ClCompile Include="HTTPTransfer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="HyperlinkWidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ImageFont.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Insets.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="KeyCodes.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ListWidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="MemoryImage.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="MiscBuildBase.cpp" />
+    <ClCompile Include="MTRand.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="MusicInterface.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ogg\bitwise.c" />
+    <ClCompile Include="ogg\block.c" />
+    <ClCompile Include="ogg\codebook.c" />
+    <ClCompile Include="ogg\floor0.c" />
+    <ClCompile Include="ogg\floor1.c" />
+    <ClCompile Include="ogg\framing.c" />
+    <ClCompile Include="ogg\info.c" />
+    <ClCompile Include="ogg\mapping0.c" />
+    <ClCompile Include="ogg\mdct.c" />
+    <ClCompile Include="ogg\registry.c" />
+    <ClCompile Include="ogg\res012.c" />
+    <ClCompile Include="ogg\sharedbook.c" />
+    <ClCompile Include="ogg\synthesis.c" />
+    <ClCompile Include="ogg\vorbisfile.c" />
+    <ClCompile Include="ogg\window.c" />
+    <ClCompile Include="PerfTimer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="PropertiesParser.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Quantize.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ScrollbarWidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ScrollbuttonWidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="SEHCatcher.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="SexyAppBase.cpp" />
+    <ClCompile Include="SexyMatrix.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="SoundBuild.cpp" />
+    <ClCompile Include="SWTri.cpp" />
+    <ClCompile Include="SysFont.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="TextWidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Widget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="WidgetBuildBase.cpp" />
+    <ClCompile Include="WidgetContainer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="WidgetManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="XMLParser.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ImageLib\ImageLib.h" />
+    <ClInclude Include="..\ImageLib\jpeg\cderror.h" />
+    <ClInclude Include="..\ImageLib\jpeg\cdjpeg.h" />
+    <ClInclude Include="..\ImageLib\jpeg\jchuff.h" />
+    <ClInclude Include="..\ImageLib\jpeg\jconfig.h" />
+    <ClInclude Include="..\ImageLib\jpeg\jdct.h" />
+    <ClInclude Include="..\ImageLib\jpeg\jdhuff.h" />
+    <ClInclude Include="..\ImageLib\jpeg\jerror.h" />
+    <ClInclude Include="..\ImageLib\jpeg\jinclude.h" />
+    <ClInclude Include="..\ImageLib\jpeg\jmemsys.h" />
+    <ClInclude Include="..\ImageLib\jpeg\jmorecfg.h" />
+    <ClInclude Include="..\ImageLib\jpeg\jpegint.h" />
+    <ClInclude Include="..\ImageLib\jpeg\jpeglib.h" />
+    <ClInclude Include="..\ImageLib\jpeg\jversion.h" />
+    <ClInclude Include="..\ImageLib\jpeg\transupp.h" />
+    <ClInclude Include="..\ImageLib\png\png.h" />
+    <ClInclude Include="..\ImageLib\png\pngasmrd.h" />
+    <ClInclude Include="..\ImageLib\png\pngconf.h" />
+    <ClInclude Include="..\ImageLib\zlib\deflate.h" />
+    <ClInclude Include="..\ImageLib\zlib\infblock.h" />
+    <ClInclude Include="..\ImageLib\zlib\infcodes.h" />
+    <ClInclude Include="..\ImageLib\zlib\inffast.h" />
+    <ClInclude Include="..\ImageLib\zlib\inffixed.h" />
+    <ClInclude Include="..\ImageLib\zlib\inftrees.h" />
+    <ClInclude Include="..\ImageLib\zlib\infutil.h" />
+    <ClInclude Include="..\ImageLib\zlib\trees.h" />
+    <ClInclude Include="..\ImageLib\zlib\zconf.h" />
+    <ClInclude Include="..\ImageLib\zlib\zlib.h" />
+    <ClInclude Include="..\ImageLib\zlib\zutil.h" />
+    <ClInclude Include="AutoCrit.h" />
+    <ClInclude Include="BassLoader.h" />
+    <ClInclude Include="BassMusicInterface.h" />
+    <ClInclude Include="Buffer.h" />
+    <ClInclude Include="ButtonListener.h" />
+    <ClInclude Include="ButtonWidget.h" />
+    <ClInclude Include="Checkbox.h" />
+    <ClInclude Include="CheckboxListener.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="CritSect.h" />
+    <ClInclude Include="D3DInterface.h" />
+    <ClInclude Include="D3DTester.h" />
+    <ClInclude Include="DDImage.h" />
+    <ClInclude Include="DDInterface.h" />
+    <ClInclude Include="Debug.h" />
+    <ClInclude Include="DescParser.h" />
+    <ClInclude Include="Dialog.h" />
+    <ClInclude Include="DialogButton.h" />
+    <ClInclude Include="DialogListener.h" />
+    <ClInclude Include="DirectXErrorString.h" />
+    <ClInclude Include="DSoundInstance.h" />
+    <ClInclude Include="DSoundManager.h" />
+    <ClInclude Include="dsoundversion.h" />
+    <ClInclude Include="EditListener.h" />
+    <ClInclude Include="EditWidget.h" />
+    <ClInclude Include="Flags.h" />
+    <ClInclude Include="FModLoader.h" />
+    <ClInclude Include="FModMusicInterface.h" />
+    <ClInclude Include="FModSoundInstance.h" />
+    <ClInclude Include="FModSoundManager.h" />
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="HTTPTransfer.h" />
+    <ClInclude Include="HyperlinkWidget.h" />
+    <ClInclude Include="Image.h" />
+    <ClInclude Include="ImageFont.h" />
+    <ClInclude Include="Insets.h" />
+    <ClInclude Include="KeyCodes.h" />
+    <ClInclude Include="ListListener.h" />
+    <ClInclude Include="ListWidget.h" />
+    <ClInclude Include="MemoryImage.h" />
+    <ClInclude Include="MTRand.h" />
+    <ClInclude Include="MusicInterface.h" />
+    <ClInclude Include="ogg\asm_arm.h" />
+    <ClInclude Include="ogg\backends.h" />
+    <ClInclude Include="ogg\codebook.h" />
+    <ClInclude Include="ogg\codec_internal.h" />
+    <ClInclude Include="ogg\config_types.h" />
+    <ClInclude Include="ogg\ivorbiscodec.h" />
+    <ClInclude Include="ogg\ivorbisfile.h" />
+    <ClInclude Include="ogg\lsp_lookup.h" />
+    <ClInclude Include="ogg\mdct.h" />
+    <ClInclude Include="ogg\mdct_lookup.h" />
+    <ClInclude Include="ogg\misc.h" />
+    <ClInclude Include="ogg\ogg.h" />
+    <ClInclude Include="ogg\os.h" />
+    <ClInclude Include="ogg\os_types.h" />
+    <ClInclude Include="ogg\registry.h" />
+    <ClInclude Include="ogg\window.h" />
+    <ClInclude Include="ogg\window_lookup.h" />
+    <ClInclude Include="PerfTimer.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="PropertiesParser.h" />
+    <ClInclude Include="Quantize.h" />
+    <ClInclude Include="Rect.h" />
+    <ClInclude Include="ScrollbarWidget.h" />
+    <ClInclude Include="ScrollbuttonWidget.h" />
+    <ClInclude Include="ScrollListener.h" />
+    <ClInclude Include="SEHCatcher.h" />
+    <ClInclude Include="SexyAppBase.h" />
+    <ClInclude Include="SexyMatrix.h" />
+    <ClInclude Include="SexyVector.h" />
+    <ClInclude Include="Slider.h" />
+    <ClInclude Include="SliderListener.h" />
+    <ClInclude Include="SoundInstance.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SWTri.h" />
+    <ClInclude Include="SysFont.h" />
+    <ClInclude Include="TextWidget.h" />
+    <ClInclude Include="Widget.h" />
+    <ClInclude Include="WidgetContainer.h" />
+    <ClInclude Include="WidgetManager.h" />
+    <ClInclude Include="XMLParser.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
