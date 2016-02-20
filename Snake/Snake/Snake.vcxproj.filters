@@ -30,6 +30,9 @@
     <ClInclude Include="..\..\src\targetver.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Snake.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Board.cpp">
@@ -39,6 +42,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Snake.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

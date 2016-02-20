@@ -175,6 +175,7 @@
     <ClInclude Include="..\..\src\Board.h" />
     <ClInclude Include="..\..\src\GameApp.h" />
     <ClInclude Include="..\..\src\Resource.h" />
+    <ClInclude Include="..\..\src\Snake.h" />
     <ClInclude Include="..\..\src\stdafx.h" />
     <ClInclude Include="..\..\src\targetver.h" />
   </ItemGroup>
@@ -182,6 +183,7 @@
     <ClCompile Include="..\..\src\Board.cpp" />
     <ClCompile Include="..\..\src\GameApp.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\Snake.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\resources\small.ico" />

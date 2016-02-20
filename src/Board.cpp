@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "Board.h"
 #include "SexyAppFramework/Graphics.h"
-#include "SexyAppFramework/Color.h"
-#include "SexyAppFramework/Point.h"
 
 using namespace Sexy;
+
+Board::Board(Game::Snake::HardPtr snake) {
+	_snake = snake;
+}
 
 void Board::Update() {
 	Widget::Update();
@@ -12,7 +14,7 @@ void Board::Update() {
 }
 
 void Board::Draw(Graphics* g) {
-	g->FillRect(0, 0, mWidth, mHeight);
+/*	
 	g->SetColor(Color(255, 128, 64));
 	g->FillRect(mWidth / 2, mHeight / 2, 50, 50);
 	g->SetColor(Color(255, 0, 0));
@@ -31,12 +33,35 @@ void Board::Draw(Graphics* g) {
 	trianglePoints[2] = Point(60, 45);
 	g->SetColor(Color(255, 255, 0));
 	g->PolyFill(trianglePoints, 3);
-	g->SetColor(Color(0, 255, 255));
-	Point pentaPoints[5];
-	pentaPoints[0] = Point(200, 0);
-	pentaPoints[1] = Point(150, 40);
-	pentaPoints[2] = Point(150, 80);
-	pentaPoints[3] = Point(250, 80);
-	pentaPoints[4] = Point(250, 40);
+	
+	*/
+	/*
+
+	*/
+	/*Point pentaPoints[5];
+	pentaPoints[0] = Point(frame + 200, 0);
+	pentaPoints[1] = Point(frame + 150, 40);
+	pentaPoints[2] = Point(frame + 150, 80);
+	pentaPoints[3] = Point(frame + 250, 80);
+	pentaPoints[4] = Point(frame + 250, 40);
 	g->PolyFill(pentaPoints, 5);
+	*/
+	/*g->FillRect(0, 0, mWidth, mHeight);
+	g->SetColor(Color(0, 255, 255));
+	static int frame = 0;
+	++frame;
+
+	if (frame > 500) {
+		frame = 0;
+	}
+	Point pentaPoints[5];
+	pentaPoints[0] = Point(frame + 200, 0);
+	pentaPoints[1] = Point(frame + 150, 40);
+	pentaPoints[2] = Point(frame + 150, 80);
+	pentaPoints[3] = Point(frame + 250, 80);
+	pentaPoints[4] = Point(frame + 250, 40);
+	g->PolyFill(pentaPoints, 5);
+	*/
+	g->FillRect(0, 0, mWidth, mHeight);
+	_snake->Draw(g);
 }
