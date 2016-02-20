@@ -11,7 +11,7 @@ GameApp* GameApp::_instance = nullptr;
 GameApp::GameApp()
 	:_board(nullptr)
 { 
-	Assert(_instance == nullptr, "GameApp is singleton");
+	Assert2(_instance == nullptr, "GameApp is singleton");
 	_instance = this;
 
 	mProdName = "Snake";
