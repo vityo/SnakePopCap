@@ -1,36 +1,48 @@
 #include "GameApp.h"
+#include "stdafx.h"
 #include "Board.h"
 #include "SexyAppFramework/WidgetManager.h"
 #include "SexyAppFramework/Common.h"
 
 using namespace Sexy;
 
-GameApp::GameApp() {
-	mProdName = "Demo 1";
+GameApp* GameApp::_instance = nullptr;
+
+GameApp::GameApp()
+	:_board(nullptr)
+{ 
+	Assert(_instance == nullptr, "GameApp is singleton");
+	_instance = this;
+
+	mProdName = "Snake";
 	mProductVersion = "1.0";
-	mTitle = StringToSexyStringFast("SexyAppFramework: " + mProdName + " - " + mProductVersion);
-	mRegKey = "PopCap\\SexyAppFramework\\Demo1";
+	mTitle = "SexyAppFramework: " + mProdName + " - " + mProductVersion;
+	mRegKey = "PopCap\\SexyAppFramework\\Snake";
 	mWidth = 640;
 	mHeight = 480;
-	mBoard = NULL;
 }
 
 GameApp::~GameApp() {
-	mWidgetManager->RemoveWidget(mBoard);
-	delete mBoard;
+	mWidgetManager->RemoveWidget(_board.get());
 }
 
 void GameApp::Init() {
 	SexyAppBase::Init();
 }
 
+GameApp* GameApp::instance() {
+	return _instance;
+}
+
 void GameApp::LoadingThreadCompleted() {
 	SexyAppBase::LoadingThreadCompleted();
 
-	if (mLoadingFailed)
+	if (mLoadingFailed) {
 		return;
+	}
 
-	mBoard = new Board(this);
-	mBoard->Resize(0, 0, mWidth, mHeight);
-	mWidgetManager->AddWidget(mBoard);
+	_board = make_shared<Board>();
+	Assert(_board);
+	_board->Resize(0, 0, mWidth, mHeight);
+	mWidgetManager->AddWidget(_board.get());
 }

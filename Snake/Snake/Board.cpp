@@ -1,13 +1,10 @@
+#include "stdafx.h"
 #include "Board.h"
 #include "SexyAppFramework/Graphics.h"
 #include "SexyAppFramework/Color.h"
 #include "SexyAppFramework/Point.h"
 
 using namespace Sexy;
-
-Board::Board(GameApp* theApp) {
-	mApp = theApp;
-}
 
 void Board::Update() {
 	Widget::Update();

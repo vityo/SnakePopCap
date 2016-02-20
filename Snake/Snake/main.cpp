@@ -1,3 +1,5 @@
+#pragma once
+#include <memory>
 #include "GameApp.h"
 
 using namespace Sexy;
@@ -7,10 +9,18 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
-	gHInstance = hInstance;
-	GameApp* anApp = new GameApp();
-	anApp->Init();
-	anApp->Start();
-	delete anApp;
+	try {
+		gHInstance = hInstance;
+		auto anApp = std::make_shared<GameApp>();
+
+		if (anApp) {
+			anApp->Init();
+			anApp->Start();
+		}
+	}
+	catch (exception& exc) {
+		MessageBox(nullptr, exc.what(), "Exception", 1);
+	}
+
 	return 0;
 }
