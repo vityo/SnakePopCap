@@ -17,8 +17,8 @@ namespace Sexy {
 		virtual void LoadingThreadProc();
 		virtual void LoadingThreadCompleted();
 	private:
-		GameApp(const Board&) = delete;
-		GameApp& operator=(const Board&) = delete;
+		GameApp(const GameApp&) = delete;
+		GameApp& operator=(const GameApp&) = delete;
 
 		static GameApp* _instance;
 		Board::HardPtr _board;
