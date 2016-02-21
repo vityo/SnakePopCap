@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "GameApp.h"
+#include "Assert.h"
 
 using namespace Sexy;
 
@@ -12,14 +13,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	try {
 		gHInstance = hInstance;
 		auto anApp = std::make_shared<GameApp>();
-
-		if (anApp) {
-			anApp->Init();
-			anApp->Start();
-		}
+		Assert2(anApp, "Failed to create SexyAppBase")
+		anApp->Init();
+		anApp->Start();
 	}
 	catch (exception& exc) {
-		MessageBox(nullptr, exc.what(), "Exception", 1);
+		//а вдруг приложение SexyAppBase не создалось, тогда SexyAppBase::Popup не подойдет;
+		MessageBox(nullptr, exc.what(), "Error", 1);
 	}
 
 	return 0;

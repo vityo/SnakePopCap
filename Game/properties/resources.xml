@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ResourceManifest>
+	<Resources id="Init">
+		<SetDefaults path="font" />
+		<Font id="FONT_DEFAULT" path="Kiloton9.txt"/>
+	</Resources>
+</ResourceManifest>

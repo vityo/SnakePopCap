@@ -24,13 +24,16 @@
     <ClInclude Include="..\..\src\stdafx.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Resource.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\targetver.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Snake.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ResourceWin.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utils.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

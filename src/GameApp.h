@@ -2,11 +2,13 @@
 #include <memory>
 #include "SexyAppFramework/SexyAppBase.h"
 #include "Board.h"
-#include "Snake.h"
 
 using namespace std;
 
 namespace Sexy {
+	class ImageFont;
+	class GameResourceManager;
+
 	class GameApp : public SexyAppBase {
 	public:
 		static GameApp* instance();
@@ -22,7 +24,8 @@ namespace Sexy {
 
 		static GameApp* _instance;
 		Board::HardPtr _board;
-		Game::Snake::HardPtr _snake;
+		shared_ptr<Buffer> _dataInit;
+		shared_ptr<ImageFont> _font;
 	};
 }
 

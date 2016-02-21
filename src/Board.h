@@ -10,10 +10,12 @@ namespace Sexy {
 	public:
 		typedef shared_ptr<Board> HardPtr;
 
-		Board(Game::Snake::HardPtr snake);
+		Board(Game::Snake::HardPtr snake, int syncRefreshRate);
 		virtual void Draw(Graphics* g);
-		virtual void Update();
+		virtual void UpdateF(float theFrac);
+		virtual void KeyDown(KeyCode theKey);
 	private:
 		Game::Snake::HardPtr _snake;
+		int _syncRefreshRate;
 	};
 }

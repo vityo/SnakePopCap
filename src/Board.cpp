@@ -3,65 +3,61 @@
 #include "SexyAppFramework/Graphics.h"
 
 using namespace Sexy;
+using namespace Game;
 
-Board::Board(Game::Snake::HardPtr snake) {
-	_snake = snake;
-}
+const Color backgroundColor = Color(32, 32, 32);
 
-void Board::Update() {
-	Widget::Update();
+Board::Board(Snake::HardPtr snake, int syncRefreshRate)
+	: _snake(snake)
+	, _syncRefreshRate(syncRefreshRate)
+{}
+
+void Board::UpdateF(float theFrac) {
+	Widget::UpdateF(theFrac);
+
+	float dt = theFrac / _syncRefreshRate;
+	_snake->Update(dt);
 	MarkDirty();
 }
 
 void Board::Draw(Graphics* g) {
-/*	
-	g->SetColor(Color(255, 128, 64));
-	g->FillRect(mWidth / 2, mHeight / 2, 50, 50);
-	g->SetColor(Color(255, 0, 0));
-	g->DrawLine(0, 0, 200, 150);
-	g->SetColor(Color(0, 255, 0));
-	g->DrawLine(mWidth, 0, mWidth - 200, 150);
-	g->SetColor(Color(0, 0, 255));
-	g->DrawLine(0, mHeight, 200, mHeight - 150);
-	g->SetColor(Color(255, 255, 255));
-	g->DrawLine(mWidth, mHeight, mWidth - 200, mHeight - 150);
-	g->SetColor(Color(255, 0, 255));
-	g->DrawRect(200, 150, (mWidth - 200) - 200, (mHeight - 150) - 150);
-	Point trianglePoints[3];
-	trianglePoints[0] = Point(30, 30);
-	trianglePoints[1] = Point(30, 60);
-	trianglePoints[2] = Point(60, 45);
-	g->SetColor(Color(255, 255, 0));
-	g->PolyFill(trianglePoints, 3);
-	
-	*/
-	/*
-
-	*/
-	/*Point pentaPoints[5];
-	pentaPoints[0] = Point(frame + 200, 0);
-	pentaPoints[1] = Point(frame + 150, 40);
-	pentaPoints[2] = Point(frame + 150, 80);
-	pentaPoints[3] = Point(frame + 250, 80);
-	pentaPoints[4] = Point(frame + 250, 40);
-	g->PolyFill(pentaPoints, 5);
-	*/
-	/*g->FillRect(0, 0, mWidth, mHeight);
-	g->SetColor(Color(0, 255, 255));
-	static int frame = 0;
-	++frame;
-
-	if (frame > 500) {
-		frame = 0;
-	}
-	Point pentaPoints[5];
-	pentaPoints[0] = Point(frame + 200, 0);
-	pentaPoints[1] = Point(frame + 150, 40);
-	pentaPoints[2] = Point(frame + 150, 80);
-	pentaPoints[3] = Point(frame + 250, 80);
-	pentaPoints[4] = Point(frame + 250, 40);
-	g->PolyFill(pentaPoints, 5);
-	*/
+	g->SetColor(backgroundColor);
 	g->FillRect(0, 0, mWidth, mHeight);
-	_snake->Draw(g);
+	_snake->Draw(g);	
+}
+
+void Board::KeyDown(KeyCode theKey) {
+
+	Snake::State snakeState = _snake->getState();
+
+	if (snakeState == Snake::READY
+		&& !(theKey == KEYCODE_LEFT || theKey == KEYCODE_RIGHT
+			|| theKey == KEYCODE_UP || theKey == KEYCODE_DOWN)) {
+		return;
+	}
+
+	if (snakeState == Snake::READY ||
+		snakeState == Snake::GAME) {
+		switch (theKey) {
+		case KEYCODE_LEFT:
+			_snake->setDirection(Snake::LEFT);
+			break;
+		case KEYCODE_RIGHT:
+			_snake->setDirection(Snake::RIGHT);
+			break;
+		case KEYCODE_UP:
+			_snake->setDirection(Snake::UP);
+			break;
+		case KEYCODE_DOWN:
+			_snake->setDirection(Snake::DOWN);
+			break;
+		}
+
+		if (snakeState == Snake::READY) {
+			_snake->setState(Snake::GAME);
+		}
+	}
+	else if(snakeState == Snake::END) {
+		_snake->reset();
+	}
 }
