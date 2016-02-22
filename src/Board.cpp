@@ -15,7 +15,7 @@ Board::Board(Snake::HardPtr snake, int syncRefreshRate)
 void Board::UpdateF(float theFrac) {
 	Widget::UpdateF(theFrac);
 
-	float dt = theFrac / _syncRefreshRate;
+	float dt = theFrac / _syncRefreshRate; // получаем приращение времени с последнего кадра
 	_snake->Update(dt);
 	MarkDirty();
 }
@@ -57,7 +57,9 @@ void Board::KeyDown(KeyCode theKey) {
 			_snake->setState(Snake::GAME);
 		}
 	}
-	else if(snakeState == Snake::END) {
+	else if(snakeState == Snake::END 
+		&& !_snake->isGameOverTimer()) {
+		// только когда закончили моргать надпись конца игры, то можем начать сначала
 		_snake->reset();
 	}
 }

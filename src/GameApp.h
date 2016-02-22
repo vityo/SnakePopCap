@@ -6,26 +6,26 @@
 using namespace std;
 
 namespace Sexy {
-	class ImageFont;
 	class GameResourceManager;
 
+	// приложение игры
 	class GameApp : public SexyAppBase {
 	public:
-		static GameApp* instance();
+		static GameApp* instance(); // возвращает указатель на единственный экземпл€р класса
 
-		GameApp();
-		virtual ~GameApp();
-		virtual void Init();
-		virtual void LoadingThreadProc();
-		virtual void LoadingThreadCompleted();
+		GameApp(); // конструктор без параметров
+		virtual ~GameApp(); // деструктор
+		virtual void Init(); // инициализаци€ приложени€
+		virtual void LoadingThreadProc(); // процедура загрузки ресурсов
+		virtual void LoadingThreadCompleted(); // выполн€ем действи€ после загрузки
 	private:
+		// запрещаем копирование и присваивание
 		GameApp(const GameApp&) = delete;
 		GameApp& operator=(const GameApp&) = delete;
 
-		static GameApp* _instance;
-		Board::HardPtr _board;
-		shared_ptr<Buffer> _dataInit;
-		shared_ptr<ImageFont> _font;
+		static GameApp* _instance; // указатель на единственный экземпл€р
+		Board::HardPtr _board; // виджет со змейкой
+		shared_ptr<Buffer> _dataInit; // буфер с данными карты
 	};
 }
 

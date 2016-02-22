@@ -24,6 +24,7 @@ GameApp::GameApp()
 	mRegKey = "PopCap\\SexyAppFramework\\Snake";
 	mWidth = 640;
 	mHeight = 480;
+	// разрешаем UpdateF функцию
 	mVSyncUpdates = true;
 }
 
@@ -34,9 +35,12 @@ GameApp::~GameApp() {
 void GameApp::Init() {
 	SexyAppBase::Init();
 
+	// загружаем файл с описанием ресурсов игры
 	LoadResourceManifest();
 
+	// загружаем группу ресурсов Init
 	if (!mResourceManager->LoadResources("Init")) {
+		// если неудача - подробное описание ошибки
 		mLoadingFailed = true;
 		ShowResourceError(true);
 
@@ -49,13 +53,12 @@ GameApp* GameApp::instance() {
 }
 
 void GameApp::LoadingThreadProc() {
+	// загружаем файл карты
 	const string fileName = "card.txt";
 	Assert2(FileExists(fileName), "Failed to find card file");
 	_dataInit = make_shared<Buffer>();
 	bool readResult = ReadBufferFromFile(fileName, _dataInit.get());
 	Assert2(readResult, "Failed to read card file");
-	_font = make_shared<ImageFont>(this, "font/Kiloton9.txt");
-	Assert2(_font->mFontData->mInitialized, "Failed to load font");
 }
 
 void GameApp::LoadingThreadCompleted() {
@@ -65,11 +68,12 @@ void GameApp::LoadingThreadCompleted() {
 		return;
 	}
 
+	// создаем виджет со змейкой
 	Snake::HardPtr snake = make_shared<Snake>(_dataInit, make_pair(mWidth, mHeight));
 	Assert(snake);
 	_board = make_shared<Board>(snake, mSyncRefreshRate);
 	Assert(_board);
 	_board->Resize(0, 0, mWidth, mHeight);
 	mWidgetManager->AddWidget(_board.get()); 
-	mWidgetManager->SetFocus(_board.get());
+	mWidgetManager->SetFocus(_board.get()); // после установки фокуса, приходят нажатия клавиш
 }
