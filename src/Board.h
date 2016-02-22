@@ -26,18 +26,19 @@ namespace Sexy {
 		int _cellPixelSize; // размер ячейки в ширину и в высоту
 		Point _drawPosition; // позиция для отрисовки всего поля игры
 		vector<vector<Point>> _wallsPoly; // наборы точек для полигональной отрисовки статических стен (например, вокруг всей карты)
-		struct Title {
+		// для отображения заголовка
+		class Title {
 		public:
-			static void Init(Font* font, Color color);
-			Title();
-			Title(string caption, Point positionCenter);
+			static void Init(Font* font, Color color); // инициализация шрифта и цвета текста для заголовков
+			Title(); // конструктор по умолчанию
+			Title(string caption, Point positionCenter); // конструктор, текст заголовка и его центральная позиция
 
-			void setCaption(string value);
-			string getCaption();
-			Point getPositionDraw();
-			void setPositionCenter(Point value);
-			static Font* getFont();
-			static Color getColor();
+			void setCaption(string value); // установить новый текст заголовка, пересчитывается позиция отрисовки
+			string getCaption(); // вернуть текст заголовка
+			Point getPositionDraw(); // вернуть позицию отрисовки
+			void setPositionCenter(Point value); // установить центральную позицию текста
+			static Font* getFont(); // шрифт текста
+			static Color getColor(); // цвет текста
 		private:
 			void calcTitleShiftX(string _caption); // получить сдвиг для заголовка на основе его текста, выравнивание текста по центру
 

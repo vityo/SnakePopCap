@@ -5,7 +5,7 @@
 
 using namespace Sexy;
 
-// TODO тут можно подробно расписать сообщения по ассертам
+// TODO позже тут можно подробно расписать сообщения по ассертам
 
 namespace Game {
 	GameInfo gameInfo;
