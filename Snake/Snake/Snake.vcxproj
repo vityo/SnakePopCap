@@ -185,6 +185,7 @@
     <ClCompile Include="..\..\src\GameApp.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Snake.cpp" />
+    <ClCompile Include="..\..\src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\resources\small.ico" />

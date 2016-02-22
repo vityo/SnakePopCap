@@ -11,7 +11,7 @@ using namespace std;
 using namespace Sexy;
 
 namespace Game {
-	// Игра змейка
+	// Игра змейка. Только дискретная логика
 	class Snake {
 	public:
 		typedef shared_ptr<Snake> HardPtr; // сильный указатель
@@ -19,67 +19,64 @@ namespace Game {
 		typedef pair<index_type, index_type> cell_type; // тип ячейки
 		enum Direction{LEFT, RIGHT, UP, DOWN}; // типы направления движения
 		enum State { READY, GAME, END }; // типы состояния игры
-
-		Snake(shared_ptr<Buffer> data, pair<int, int> screenSize); // конструктор, буффер с данными карты и размеры экрана
-		virtual void Update(float dt); // dt прирост времени с последнего кадра
-		virtual void Draw(Graphics* g); // отрисовка
-
-		State getState(); // узнать текущее состояние игры
-		void setState(State state); // установить текущее состояние игры
-		void setDirection(Direction direction); // установить возможное направление змейки
-		void reset(); // сбросить игру, начать заново
-		bool isGameOverTimer(); // игра реально закончилась, но еще моргает заголовок + стоит подождать, пока игрок поймет, что проиграл
-	protected:
-		typedef uint8_t pixel_type; // тип для измерения пикселей (ячейки небольшие, поэтому такой)
-		enum Prise { 
+		enum PriseType { 
 			SCORE = 0, // увеличиваем зарабатываемые очки
 			SLICE = 1, // обрезаем змейку
 			SPEED = 2, // изменяем скорость
-			PRISE_COUNT = 3 // количество
+			PRISE_COUNT = 3, // количество
+			PRISE_NONE = 4 // пока не установлен никакой активный приз
 		}; // возможные призы
+		enum EndCaused {
+			CAUSED_NONE, // пока не установлено
+			WALL, // ударились в стену
+			SNAKE // ударились в змею
+		}; // причина поражения
+		struct PriseCell {
+			cell_type position; // позиция приза
+			PriseType type; // тип приза
+			bool expired; // признак окончания работы приза
+			PriseCell(cell_type _position, PriseType _type) : position(_position), type(_type), expired(false) {}
+		};
 
+		Snake(cell_type wallsSize, shared_ptr<Buffer> data); // конструктор. толщина стен
+		void start(); // начинаем игру
+		bool next(); // дискретный шаг змейки. true, если выполнилось движение
+		void reset(); // сбросить игру, начать заново
+
+		State getState(); // узнать текущее состояние игры
+		void setDirection(Direction direction); // установить возможное направление змейки
+		pair<index_type, index_type> getGameSize(); // вернуть полные размеры игры
+		cell_type getWallsSize(); // вернуть толщину окружающих стен
+		set<cell_type> getWalls(); // вернуть ячейки со стенами
+		deque<cell_type> getSnake(); // вернуть ячейки змейки
+		shared_ptr<cell_type> getFood(); // вернуть возможную ячейку еды
+		shared_ptr<PriseCell> getPrise(); // вернуть приз на поле игры
+		shared_ptr<cell_type> getСellEndCaused(); // вернуть ячейку, ставшую причиной смерти
+		EndCaused getEndCaused(); // узнать причину смерти
+		long getScore(); // получить текущий счет
+		PriseType getPriseTypeActive(); // получить активированный тип приза
+	protected:
 		void load(shared_ptr<Buffer> data); // загружаем карту из файла
 		void makeCellFreeWithoutWallContainer(); // делаем контейнер пустых клеток карты (не меняется в процессе игры) на основе стен 
-		Point getTitlePosition(string title); // получить позицию для заголовка на основе его текста
-		void calcDrawSizes(pair<int, int> screenSize); // посчитать все размеры для отрисовки
-		void next(); // дискретный шаг змейки
-		void setScore(long value); // установить количество заработанных очков
-		void runPrise(Prise type); // запустить то, что дает приз
 		shared_ptr<cell_type> findCellFree(bool forPrise = false, bool withoutWallsOnly = false); // найти пустое свободное место
 
+		cell_type _wallsSize; // толщина стен
 		set<cell_type> _walls; // стены
 		set<cell_type> _cellsFreeWithoutWalls; // пустые клетки
-		vector<vector<Point>> _wallsPoly; // наборы точек для полигональной отрисовки статических стен (например, вокруг всей карты)
 		deque<cell_type> _snake; // ячейки змейки
-		pixel_type _cellPixelSize; // размер ячейки в ширину и в высоту
-		Point _drawPosition; // позиция для отрисовки всего поля игры
 		pair<int, int> _direction; // куда пойдет змейка дальше
-		pair<float, float> _stepTimer; // таймер для шага змейки
 		State _state; // состояние игры
-		Font* _font; // шрифт для текста
-		int _fontHeight; // высота шрифта
-		bool _titleDraw; // для моргания заголовка
-		string _title; // текст заголовка
-		Point _titlePosition; // позиция заголовка
-		Point _titleStartPosition; // позиция заголовка начального экрана
-		Point _titleEndPosition; // позиция заголовка в конце игры
 		shared_ptr<cell_type> _food; // ячейка еды
 		shared_ptr<cell_type> _cellEndCaused; // ячейка, ставшая причиной конца игры
-		Color _cellEndCausedColor; // цвет для отрисовки ячейки, ставшей причиной конца игры
 		
-		Prise _priseType; // тип приза
-		Color _priseColor; // цвет отрисовки приза
+		PriseType _priseTypeActive; // текущий тип активного приза
 		uint8_t _foodCountBeforePrise; // текущее количество еды после последнего приза
-		shared_ptr<cell_type> _prise; // ячейка приза
+		shared_ptr<PriseCell> _prise; // приз
 		vector<Point> _priseTitlePositions; // позиции заголовков игры для соответствующих призов
-		pair<float, float> _priseTimer; // таймер исчезновения приза
-		bool _priseDraw; // для моргания приза
 
 		long _score; // текущий счет, очки
-		Point _scorePosition; // позиция для отрисовки текста очков
 		pair<index_type, index_type> _gameSize; // полные размеры игры в координатах ячеек
-		float _dtStepCoefficient; // коэффициент времени
 		long _scoreCoefficient; // коэффициент получаемых очков
-		pair<float, float> _gameOverTimer; // таймер моргания текста заголовка для конца игры
+		EndCaused _endCaused; // причина поражения
 	};
 }

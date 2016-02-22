@@ -69,9 +69,9 @@ void GameApp::LoadingThreadCompleted() {
 	}
 
 	// создаем виджет со змейкой
-	Snake::HardPtr snake = make_shared<Snake>(_dataInit, make_pair(mWidth, mHeight));
+	Snake::HardPtr snake = make_shared<Snake>(make_pair(1, 1), _dataInit);
 	Assert(snake);
-	_board = make_shared<Board>(snake, mSyncRefreshRate);
+	_board = make_shared<Board>(snake, mSyncRefreshRate, make_pair(mWidth, mHeight));
 	Assert(_board);
 	_board->Resize(0, 0, mWidth, mHeight);
 	mWidgetManager->AddWidget(_board.get()); 
