@@ -1,6 +1,7 @@
 #pragma once
 #include <set>
 #include <memory>
+#include <queue>
 #include "SexyAppFramework/Buffer.h"
 #include "SexyAppFramework/Graphics.h"
 #include "SexyAppFramework/Point.h"
