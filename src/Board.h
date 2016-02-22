@@ -12,11 +12,14 @@ namespace Sexy {
 	public:
 		typedef shared_ptr<Board> HardPtr; // сильный указатель
 
-		Board(Game::Snake::HardPtr snake, int syncRefreshRate, pair<int, int> screenSize); // тут же считаем все параметры и размеры для отрисовки
+		Board(int syncRefreshRate, pair<int, int> screenSize, shared_ptr<Buffer> data); // тут же считаем все параметры и размеры для отрисовки
 		virtual void UpdateF(float theFrac); // обновление
 		virtual void Draw(Graphics* g); // отрисовка
 		virtual void KeyDown(KeyCode theKey); // нажатия
 	private:
+		void reset(); // сбрасывает таймеры, тексты
+		set<Game::Snake::cell_type> load(shared_ptr<Buffer> data); // загружаем карту из файла
+
 		Game::Snake::HardPtr _snake; // змейка
 		int _syncRefreshRate; // частота обновления
 		int _cellPixelSize; // размер ячейки в ширину и в высоту
@@ -24,22 +27,22 @@ namespace Sexy {
 		vector<vector<Point>> _wallsPoly; // наборы точек для полигональной отрисовки статических стен (например, вокруг всей карты)
 		struct Title {
 		public:
-			static void Init(Font* font, Point positionCenter);
+			static void Init(Font* font);
 			Title();
-			Title(string caption);
+			Title(string caption, Point positionCenter);
 
 			void setCaption(string value);
 			string getCaption();
-			Point getPosition();
-			void setPosition(Point value);
+			Point getPositionDraw();
+			void setPositionCenter(Point value);
 			static Font* getFont();
 		private:
-			Point getTitlePosition(string _caption); // получить позицию для заголовка на основе его текста
+			void calcTitleShiftX(string _caption); // получить сдвиг для заголовка на основе его текста, выравнивание текста по центру
 
-			static Point _positionCenter; // центральная позиция пустого заголовка
+			Point _positionCenter; // центральная позиция пустого заголовка
 			static Font* _font; // шрифт для текста
 			string _caption; // текст заголовка
-			Point _position; // позиция заголовка с текстом
+			int _shiftX; // сдвиг заголовка с текстом для отрисовки
 		};
 		struct PriseParameters {
 			Title title; // заголовок для приза
@@ -52,9 +55,9 @@ namespace Sexy {
 		Title _titleScore; // текст заработанных очков
 		
 		Color _cellEndCausedColor; // цвет для отрисовки ячейки, ставшей причиной конца игры
-		pair<float, float> _gameOverTimer; // таймер моргания текста заголовка для конца игры
+		pair<float, float> _titleTimer; // таймер моргания текста заголовка
 		pair<float, float> _stepTimer; // таймер для шага змейки
-		pair<float, float> _priseTimer; // таймер исчезновения приза
+		pair<float, float> _priseDisappearTimer; // таймер исчезновения приза
 		bool _titleDraw; // для моргания заголовка
 		bool _priseDraw; // для моргания приза
 		float _dtStepCoefficient; // коэффициент времени
