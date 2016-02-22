@@ -184,6 +184,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Board.cpp" />
     <ClCompile Include="..\..\src\GameApp.cpp" />
+    <ClCompile Include="..\..\src\GameInfo.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Snake.cpp" />
     <ClCompile Include="..\..\src\Utils.cpp" />

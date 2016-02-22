@@ -1,5 +1,9 @@
 #pragma once
 #include <string>
+#include <memory>
+#include "SexyAppFramework/Color.h"
+#include "SexyAppFramework/XMLParser.h"
+#include "SexyAppFramework/ImageFont.h"
 #include "SexyAppFramework/Color.h"
 
 using namespace std;
@@ -7,39 +11,52 @@ using namespace Sexy;
 
 namespace Game {
 	// вспомогательные функции
-	const string fontId = "FONT_DEFAULT"; // шрифт
-	const Color fontColor = Color(255, 255, 255); // цвет текста
-	const string titleStart = "Press any arrow keys to start!"; // заголовок в начале игры
-	const string titleEnd = "GAME OVER. Press any key to restart!"; // заголовок в конце игры
-	const string titlePriseScore = "SCORE x3!"; // текст приза очков
-	const string titlePriseSlice = "SLICE!"; // текст приза обрезки
-	const string titlePriseSpeed = "SPEED!"; // текст приза скорости
-	const Color priseScoreColor = Color(255, 255, 0); // цвет приза очков
-	const Color priseSliceColor = Color(0, 255, 0); // цвет приза обрезки
-	const Color priseSpeedColor = Color(0, 255, 255); // цвет приза скорости
-	const Color backgroundColor = Color(32, 32, 32); // цвет фона
-	const Color wallColor = Color(200, 0, 0); // цвет стен
-	const Color foodColor = Color(0, 0, 200); // цвет еды для змейки
-	const Color snakeHeadColor = Color(0, 200, 0); // цвет головы змейки
-	const Color snakeColor = Color(0, 150, 0); // цвет змейки
-	const Color snakeHeadEndColor = Color(0, 100, 0); // цвет головы змейки, если ударилась
-	const Color endCausedWallColor = Color(100, 0, 0); // цвет стены, в которую врезались
-	const float stepPeriod = 0.3f; // шаг змейки происходит за это время в секундах
-	const float dtStepCoefficientDefault = 1.0f; // коэффициент времени по умолчанию
-	const float priseSpeedMul = 2.0f; // коэффициент приза времени
-	const float gameOverPeriod = 4.0f; // период моргания текста после завершения игры, нельзя нажимать клавиши
-	const float priseDisappearPeriod = 7.0f; // период исчезновения приза
-	const float priseActivePeriod = 10.0f; // период активности приза
+	struct GameInfo {
+		// интерфейс игры
+		string titleStart; // заголовок в начале игры
+		string titleEnd; // заголовок в конце игры
+		string titlePriseScore; // текст приза очков
+		string titlePriseSlice; // текст приза обрезки
+		string titlePriseSpeed; // текст приза скорости
+		string fontId; // id шрифта
+		Font* font; // сразу загруженный шрифт
+		Color fontColor; // цвет текста
+		Color priseScoreColor;// цвет приза очков
+		Color priseSliceColor; // цвет приза обрезки
+		Color priseSpeedColor; // цвет приза скорости
+		Color backgroundColor; // цвет фона
+		Color wallColor; // цвет стен
+		Color foodColor; // цвет еды для змейки
+		Color snakeHeadColor; // цвет головы змейки
+		Color snakeColor; // цвет змейки
+		Color snakeHeadEndColor; // цвет головы змейки, если ударилась
+		Color endCausedWallColor; // цвет стены, в которую врезались
+		Color endCausedSnakeColor; // цвет ячейки змейки, в которую врезались
+		float stepPeriod; // шаг змейки происходит за это время в секундах
+		float dtStepCoefficientDefault; // коэффициент времени по умолчанию
+		float priseSpeedMul; // коэффициент приза времени
+		float gameOverPeriod; // период моргания текста после завершения игры, нельзя нажимать клавиши
+		float priseDisappearPeriod; // период исчезновения приза
+		float priseActivePeriod; // период активности приза
 
-	const pair<uint8_t, uint8_t> wallsSize(1, 1); // толщина наружных стен
-	const pair<uint8_t, uint8_t> gameInnerSize(16, 13); // внутренние размеры игрового поля (без стен)
-	const uint8_t snakeFirstSize(3); // размер, с которым рождается змейка
-	const Color endCausedSnakeColor = Color(0, 50, 0); // цвет тела змейки, если в него ударились
-	const long priseScoreMul = 3; // коэффициент приза очков
-	const int priseSliceCount = 1; // обрезаем змейку на столько ячеек после взятия приза
-	const int priseSlicePerFood = 2; // обрезаем змейку каждый раз когда берет еду или приз во время приза обрезки
-	const int snakeMinSizeAfterSlice = 1; // минимальный размер змейки после обрезки
-	const long scoreByFood = 10; // очков за еду
-	const uint8_t foodCountBeforePrise = 2; // столько должны съесть еды, прежде чем появится приз
-	const long scoreCoefficientDefault = 1; // коэффициент получаемых очков по умолчанию
+		// сама змейка
+		pair<uint8_t, uint8_t> wallsSize; // толщина наружных стен
+		pair<uint8_t, uint8_t> gameInnerSize; // внутренние размеры игрового поля (без стен)
+		uint8_t snakeFirstSize; // размер, с которым рождается змейка
+		long priseScoreMul; // коэффициент приза очков
+		int priseSliceCount; // обрезаем змейку на столько ячеек после взятия приза
+		int priseSlicePerFood; // обрезаем змейку каждый раз когда берет еду или приз во время приза обрезки
+		int snakeMinSizeAfterSlice; // минимальный размер змейки после обрезки
+		long scoreByFood; // очков за еду
+		uint8_t foodCountBeforePrise; // столько должны съесть еды, прежде чем появится приз
+		long scoreCoefficientDefault; // коэффициент получаемых очков по умолчанию
+		uint8_t priseSameTypeCountMax; // сколько раз подряд может быть один и тот же тип приза
+
+		Color ExtractXMLColor(XMLElement e); // вытащить цвет из xml
+		bool ExtractXMLData(shared_ptr<XMLParser> parser); // вытаскиваем данные об игре из xml файла
+	};
+
+	extern GameInfo gameInfo;
+
+	
 }

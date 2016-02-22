@@ -7,6 +7,7 @@ using namespace std;
 
 namespace Sexy {
 	class GameResourceManager;
+	class XMLParser;
 
 	// приложение игры
 	class GameApp : public SexyAppBase {
@@ -15,6 +16,7 @@ namespace Sexy {
 
 		GameApp(); // конструктор без параметров
 		virtual ~GameApp(); // деструктор
+		// на основе примеров demo из PopCap имеем следующие функции
 		virtual void Init(); // инициализация приложения
 		virtual void LoadingThreadProc(); // процедура загрузки ресурсов
 		virtual void LoadingThreadCompleted(); // выполняем действия после загрузки

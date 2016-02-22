@@ -1,6 +1,7 @@
 #pragma once
 #include "SexyAppFramework/Widget.h"
 #include "Snake.h"
+#include "SexyAppFramework/ImageFont.h"
 #include <map>
 
 namespace Sexy {
@@ -27,7 +28,7 @@ namespace Sexy {
 		vector<vector<Point>> _wallsPoly; // наборы точек для полигональной отрисовки статических стен (например, вокруг всей карты)
 		struct Title {
 		public:
-			static void Init(Font* font);
+			static void Init(Font* font, Color color);
 			Title();
 			Title(string caption, Point positionCenter);
 
@@ -36,11 +37,13 @@ namespace Sexy {
 			Point getPositionDraw();
 			void setPositionCenter(Point value);
 			static Font* getFont();
+			static Color getColor();
 		private:
 			void calcTitleShiftX(string _caption); // получить сдвиг для заголовка на основе его текста, выравнивание текста по центру
 
 			Point _positionCenter; // центральная позиция пустого заголовка
 			static Font* _font; // шрифт для текста
+			static Color _color; // цвет шрифта
 			string _caption; // текст заголовка
 			int _shiftX; // сдвиг заголовка с текстом для отрисовки
 		};

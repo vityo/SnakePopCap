@@ -5,7 +5,6 @@
 #include "SexyAppFramework/Buffer.h"
 #include "SexyAppFramework/Graphics.h"
 #include "SexyAppFramework/Point.h"
-#include "SexyAppFramework/ImageFont.h"
 
 using namespace std;
 using namespace Sexy;
@@ -77,6 +76,8 @@ namespace Game {
 		
 		PriseType _priseTypeActive; // текущий тип активного приза
 		uint8_t _foodCountBeforePrise; // текущее количество еды после последнего приза
+		uint8_t _priseSameTypeCountLast; // сколько раз был один и тот же тип приза
+		PriseType _priseTypeActiveLast; // последний тип приза, который был
 		shared_ptr<PriseCell> _prise; // приз
 		vector<Point> _priseTitlePositions; // позиции заголовков игры для соответствующих призов
 

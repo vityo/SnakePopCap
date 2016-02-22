@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "GameApp.h"
 #include "SexyAppFramework/ResourceManager.h"
+#include "SexyAppFramework/XMLParser.h"
 #include "Snake.h"
 #include "SexyAppFramework/WidgetManager.h"
 #include "SexyAppFramework/Common.h"
+#include "GameInfo.h"
 
 using namespace Sexy;
 using namespace Game;
@@ -11,9 +13,9 @@ using namespace Game;
 GameApp* GameApp::_instance = nullptr;
 
 GameApp::GameApp()
-	:SexyAppBase()
-	,_board(nullptr)
-	,_dataInit(nullptr)
+	: SexyAppBase()
+	, _board(nullptr)
+	, _dataInit(nullptr)
 { 
 	Assert2(_instance == nullptr, "GameApp is singleton");
 	_instance = this;
@@ -30,6 +32,7 @@ GameApp::GameApp()
 
 GameApp::~GameApp() {
 	mWidgetManager->RemoveWidget(_board.get());
+	mResourceManager->DeleteResources("");
 }
 
 void GameApp::Init() {
@@ -46,6 +49,18 @@ void GameApp::Init() {
 
 		return;
 	}
+
+	shared_ptr<XMLParser> parser = make_shared<XMLParser>();
+
+	if (!parser->OpenFile("properties/gameinfo.xml"))
+	{
+		mLoadingFailed = true;
+		MsgBox(StrFormat("Couldn't open properties/gameinfo.xml. Error returned:\n\"%s\"",
+			parser->GetErrorText().c_str()), "Error");
+		return;
+	}
+
+	gameInfo.ExtractXMLData(parser);
 }
 
 GameApp* GameApp::instance() {
@@ -53,6 +68,7 @@ GameApp* GameApp::instance() {
 }
 
 void GameApp::LoadingThreadProc() {
+	// нужно загрузить собственный файл
 	// загружаем файл карты
 	const string fileName = "card.txt";
 	Assert2(FileExists(fileName), "Failed to find card file");

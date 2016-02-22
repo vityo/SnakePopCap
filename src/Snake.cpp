@@ -2,8 +2,6 @@
 #include "Snake.h"
 #include <algorithm>
 #include <iterator>
-#include "SexyAppFramework/Color.h"
-#include "SexyAppFramework/Point.h"
 #include "Utils.h"
 #include "GameInfo.h"
 
@@ -13,22 +11,24 @@ Snake::Snake(cell_type wallsSize, set<cell_type> wallsInner)
 	: _wallsSize(wallsSize)
 	, _walls(wallsInner)
 { 
-	_gameSize = make_pair(gameInnerSize.first + wallsSize.first * 2, gameInnerSize.second + wallsSize.second * 2);
+	_gameSize = make_pair(gameInfo.gameInnerSize.first + wallsSize.first * 2, gameInfo.gameInnerSize.second + wallsSize.second * 2);
 	makeCellFreeWithoutWallContainer();
 	reset();
 }
 
 void Snake::reset() {
+	_priseTypeActiveLast = PRISE_NONE;
+	_priseSameTypeCountLast = 0;
 	_eventLast = EVENT_NONE;
 	_priseTypeActive = PRISE_NONE;
-	_scoreCoefficient = scoreCoefficientDefault;
+	_scoreCoefficient = gameInfo.scoreCoefficientDefault;
 	_foodCountBeforePrise = 0;
 	_score = 0;
 	_cellEndCaused = nullptr;
 
 	// выбираем место дл€ старта змейки
-	shared_ptr<cell_type> snakeStart = make_shared<cell_type>(_wallsSize.first + static_cast<index_type>(gameInnerSize.first * 0.5f),
-		_wallsSize.second + static_cast<index_type>(gameInnerSize.second * 0.5f));
+	shared_ptr<cell_type> snakeStart = make_shared<cell_type>(_wallsSize.first + static_cast<index_type>(gameInfo.gameInnerSize.first * 0.5f),
+		_wallsSize.second + static_cast<index_type>(gameInfo.gameInnerSize.second * 0.5f));
 	set<cell_type>::iterator snakeInWallIt = _walls.find(*snakeStart);
 
 	if (snakeInWallIt != _walls.end()) {
@@ -43,8 +43,8 @@ void Snake::reset() {
 	}
 
 	_snake.clear();
-	_snake.resize(snakeFirstSize);
-	fill_n(_snake.begin(), snakeFirstSize, *snakeStart);
+	_snake.resize(gameInfo.snakeFirstSize);
+	fill_n(_snake.begin(), gameInfo.snakeFirstSize, *snakeStart);
 	setDirection(RIGHT);
 	_state = READY;
 	_food = findCellFree();
@@ -104,15 +104,19 @@ shared_ptr<Snake::cell_type> Snake::findCellFree(bool forPrise, bool withoutWall
 	}
 	else {
 		set<cell_type> cellsFreeWithoutWalls = _cellsFreeWithoutWalls;
-		set<cell_type> snakeAndFood;
-		copy(_snake.begin(), _snake.end(), inserter(snakeAndFood, snakeAndFood.end()));
+		set<cell_type> snakeAndFoodAndPrise;
+		copy(_snake.begin(), _snake.end(), inserter(snakeAndFoodAndPrise, snakeAndFoodAndPrise.end()));
 
 		if (forPrise) {
-			snakeAndFood.insert(cell_type(_food->first, _food->second));
+			snakeAndFoodAndPrise.insert(cell_type(_food->first, _food->second));
+		}
+		else if (_prise) {
+			snakeAndFoodAndPrise.insert(cell_type(_prise->position.first, _prise->position.second));
 		}
 
 		// из множества пустых €чеек внутриигровой области вычитаем €чейки змейки и еды
-		set_difference(cellsFreeWithoutWalls.begin(), cellsFreeWithoutWalls.end(), snakeAndFood.begin(), snakeAndFood.end(), inserter(cellsFree, cellsFree.end()));
+		set_difference(cellsFreeWithoutWalls.begin(), cellsFreeWithoutWalls.end(), 
+			snakeAndFoodAndPrise.begin(), snakeAndFoodAndPrise.end(), inserter(cellsFree, cellsFree.end()));
 	}
 
 	// в cellsFree €чейки, из которых можем выбрать
@@ -130,13 +134,14 @@ void Snake::makeCellFreeWithoutWallContainer() {
 	_cellsFreeWithoutWalls.clear();
 	set<cell_type> cellsFree;
 
-	for (index_type i = _wallsSize.first; i < _wallsSize.first + gameInnerSize.first; ++i)
-		for (index_type j = _wallsSize.second; j < _wallsSize.second + gameInnerSize.second; ++j) {
+	for (index_type i = _wallsSize.first; i < _wallsSize.first + gameInfo.gameInnerSize.first; ++i)
+		for (index_type j = _wallsSize.second; j < _wallsSize.second + gameInfo.gameInnerSize.second; ++j) {
 			cellsFree.insert(cell_type(i, j));
 		}
 
 	// из множества €чеек внутриигровой области вычитаем €чейки стен внутриигровой области
-	set_difference(cellsFree.begin(), cellsFree.end(), _walls.begin(), _walls.end(), inserter(_cellsFreeWithoutWalls, _cellsFreeWithoutWalls.end()));
+	set_difference(cellsFree.begin(), cellsFree.end(), _walls.begin(), _walls.end(), 
+		inserter(_cellsFreeWithoutWalls, _cellsFreeWithoutWalls.end()));
 }
 
 Snake::State Snake::getState() {
@@ -179,7 +184,7 @@ void Snake::start() {
 
 void Snake::priseActiveEnd() {
 	_priseTypeActive = PRISE_NONE;
-	_scoreCoefficient = scoreCoefficientDefault;
+	_scoreCoefficient = gameInfo.scoreCoefficientDefault;
 }
 
 void Snake::priseDisappear() {
@@ -187,8 +192,8 @@ void Snake::priseDisappear() {
 }
 
 void Snake::slice(int count) {
-	if (_snake.size() > snakeMinSizeAfterSlice) {
-		int sliceCount = _snake.size() - max(snakeMinSizeAfterSlice, static_cast<int>(_snake.size()) - count);
+	if (_snake.size() > gameInfo.snakeMinSizeAfterSlice) {
+		int sliceCount = _snake.size() - max(gameInfo.snakeMinSizeAfterSlice, static_cast<int>(_snake.size()) - count);
 
 		while (sliceCount--) {
 			_snake.pop_front();
@@ -201,10 +206,18 @@ void Snake::setPriseTypeActive(PriseType value) {
 	_priseTypeActive = value;
 
 	if (_priseTypeActive == SCORE) {
-		_scoreCoefficient = priseScoreMul;
+		_scoreCoefficient = gameInfo.priseScoreMul;
 	}
 	else if (_priseTypeActive == SLICE) {
-		slice(priseSliceCount);
+		slice(gameInfo.priseSliceCount);
+	}
+
+	if (_priseTypeActiveLast == value) {
+		++_priseSameTypeCountLast;
+	}
+	else {
+		_priseSameTypeCountLast = 1;
+		_priseTypeActiveLast = value;
 	}
 }
 
@@ -216,9 +229,9 @@ Snake::EventType Snake::next() {
 
 		bool isEndByWall = _walls.find(cell) != _walls.end()
 			|| cell.first < _wallsSize.first
-			|| cell.first > _wallsSize.first + gameInnerSize.first - 1
+			|| cell.first > _wallsSize.first + gameInfo.gameInnerSize.first - 1
 			|| cell.second < _wallsSize.second
-			|| cell.second > _wallsSize.second + gameInnerSize.second - 1;
+			|| cell.second > _wallsSize.second + gameInfo.gameInnerSize.second - 1;
 		bool isEndBySnake = find(++_snake.begin(), _snake.end(), cell) != _snake.end();
 		bool isEnd = isEndByWall || isEndBySnake;
 
@@ -241,14 +254,21 @@ Snake::EventType Snake::next() {
 				_food = findCellFree();
 				++_foodCountBeforePrise;
 
-				if (_foodCountBeforePrise == foodCountBeforePrise) {
+				if (_foodCountBeforePrise == gameInfo.foodCountBeforePrise) {
 					_foodCountBeforePrise = 0;
 					shared_ptr<cell_type> cell = findCellFree(true);
 
 					//только если есть место
 					if (cell) {
 						_eventLast = EVENT_PRISE_CREATE;
-						_prise = make_shared<PriseCell>(*cell.get(), static_cast<PriseType>(utils::Math::random(0, PRISE_COUNT - 1)));
+
+						PriseType priseType;
+
+						do {
+							priseType = static_cast<PriseType>(utils::Math::random(0, PRISE_COUNT - 1));
+						} while ((_priseTypeActiveLast == priseType && _priseSameTypeCountLast + 1 > gameInfo.priseSameTypeCountMax));
+						
+						_prise = make_shared<PriseCell>(*cell.get(), priseType);
 					}
 				}
 			}
@@ -266,10 +286,10 @@ Snake::EventType Snake::next() {
 			// сейчас уже установили возможный съеденный тип приза
 			if (isFood || isPrise) {
 				if (_priseTypeActive == SLICE) {
-					slice(priseSlicePerFood);
+					slice(gameInfo.priseSlicePerFood);
 				}
 
-				_score += scoreByFood * _scoreCoefficient;
+				_score += gameInfo.scoreByFood * _scoreCoefficient;
 			}
 		}
 	}

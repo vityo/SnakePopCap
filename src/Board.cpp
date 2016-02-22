@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Board.h"
 #include "SexyAppFramework/Graphics.h"
-#include "SexyAppFramework/ResourceManager.h"
+#include "SexyAppFramework/Point.h"
 #include "GameApp.h"
 #include "Utils.h"
 #include "GameInfo.h"
@@ -10,10 +10,12 @@ using namespace Sexy;
 using namespace Game;
 
 Font* Board::Title::_font = nullptr;
+Color Board::Title::_color;
 
-void Board::Title::Init(Font* font) {
+void Board::Title::Init(Font* font, Color color) {
 	_font = font;
 	Assert(_font);
+	_color = color;
 }
 
 Board::Title::Title() 
@@ -48,15 +50,19 @@ Font* Board::Title::getFont() {
 	return _font;
 }
 
+Color Board::Title::getColor() {
+	return _color;
+}
+
 void Board::Title::calcTitleShiftX(string _caption) {
 	_shiftX = -_font->StringWidth(_caption) / 2;
 }
 
 Board::Board(int syncRefreshRate, pair<int, int> screenSize, shared_ptr<Buffer> data)
 	: _syncRefreshRate(syncRefreshRate)
-	, _cellEndCausedColor(endCausedWallColor)
+	, _cellEndCausedColor(gameInfo.endCausedWallColor)
 {
-	_snake = make_shared<Snake>(make_pair(1, 1), load(data));
+	_snake = make_shared<Snake>(gameInfo.wallsSize, load(data));
 	Assert(_snake);
 
 	// выбираем размеры для ячейки, все относительно
@@ -72,31 +78,30 @@ Board::Board(int syncRefreshRate, pair<int, int> screenSize, shared_ptr<Buffer> 
 	_wallsPoly = { { Point(0, 0),
 		Point(0, gameSize.second * _cellPixelSize),
 		Point(gameSize.first * _cellPixelSize, gameSize.second * _cellPixelSize),
-		Point(gameSize.first * _cellPixelSize, (gameSize.second - wallsSize.second) * _cellPixelSize),
-		Point(wallsSize.first * _cellPixelSize, (gameSize.second - wallsSize.second) * _cellPixelSize),
-		Point(wallsSize.first * _cellPixelSize, 0) },
-		{ Point(wallsSize.first * _cellPixelSize, 0),
-		Point(wallsSize.first * _cellPixelSize, wallsSize.second * _cellPixelSize),
-		Point((gameSize.first - wallsSize.first) * _cellPixelSize, wallsSize.second * _cellPixelSize),
-		Point((gameSize.first - wallsSize.first) * _cellPixelSize, (gameSize.second - wallsSize.second) * _cellPixelSize),
-		Point(gameSize.first * _cellPixelSize, (gameSize.second - wallsSize.second) * _cellPixelSize),
+		Point(gameSize.first * _cellPixelSize, (gameSize.second - gameInfo.wallsSize.second) * _cellPixelSize),
+		Point(gameInfo.wallsSize.first * _cellPixelSize, (gameSize.second - gameInfo.wallsSize.second) * _cellPixelSize),
+		Point(gameInfo.wallsSize.first * _cellPixelSize, 0) },
+		{ Point(gameInfo.wallsSize.first * _cellPixelSize, 0),
+		Point(gameInfo.wallsSize.first * _cellPixelSize, gameInfo.wallsSize.second * _cellPixelSize),
+		Point((gameSize.first - gameInfo.wallsSize.first) * _cellPixelSize, gameInfo.wallsSize.second * _cellPixelSize),
+		Point((gameSize.first - gameInfo.wallsSize.first) * _cellPixelSize, (gameSize.second - gameInfo.wallsSize.second) * _cellPixelSize),
+		Point(gameSize.first * _cellPixelSize, (gameSize.second - gameInfo.wallsSize.second) * _cellPixelSize),
 		Point(gameSize.first * _cellPixelSize, 0) } };
 
 	// параметры для призов и состояний
 	int gameWidth = gameSize.first * _cellPixelSize;
-	Font* font = GameApp::instance()->mResourceManager->GetFontThrow(fontId);
-	int fontHeight = font->GetHeight();
-	Title::Init(font);
+	int fontHeight = gameInfo.font->GetHeight();
+	Title::Init(gameInfo.font, gameInfo.fontColor);
 	Point titleCenterPosition = Point(gameWidth / 2, static_cast<int>(_cellPixelSize - fontHeight));
 	_titleScore = Title("", Point(titleCenterPosition.mX, static_cast<int>(gameSize.second * _cellPixelSize - fontHeight)));
 	_priseParameters.insert(make_pair(Snake::SCORE,
-		PriseParameters(Title(titlePriseScore, titleCenterPosition), priseScoreColor)));
+		PriseParameters(Title(gameInfo.titlePriseScore, titleCenterPosition), gameInfo.priseScoreColor)));
 	_priseParameters.insert(make_pair(Snake::SLICE,
-		PriseParameters(Title(titlePriseSlice, titleCenterPosition), priseSliceColor)));
+		PriseParameters(Title(gameInfo.titlePriseSlice, titleCenterPosition), gameInfo.priseSliceColor)));
 	_priseParameters.insert(make_pair(Snake::SPEED,
-		PriseParameters(Title(titlePriseSpeed, titleCenterPosition), priseSpeedColor)));
-	_stateParameters.insert(make_pair(Snake::READY, Title(titleStart, titleCenterPosition)));
-	_stateParameters.insert(make_pair(Snake::END, Title(titleEnd, titleCenterPosition)));
+		PriseParameters(Title(gameInfo.titlePriseSpeed, titleCenterPosition), gameInfo.priseSpeedColor)));
+	_stateParameters.insert(make_pair(Snake::READY, Title(gameInfo.titleStart, titleCenterPosition)));
+	_stateParameters.insert(make_pair(Snake::END, Title(gameInfo.titleEnd, titleCenterPosition)));
 
 	reset();
 }
@@ -106,16 +111,16 @@ set<Game::Snake::cell_type> Board::load(shared_ptr<Buffer> data) {
 	set<Snake::cell_type> walls;
 	ByteVector byteVector;
 	const uint8_t symbols = 2; // перенос строки и возврат каретки
-	int dataLength = (gameInnerSize.first + symbols) * gameInnerSize.second - symbols;
+	int dataLength = (gameInfo.gameInnerSize.first + symbols) * gameInfo.gameInnerSize.second - symbols;
 	int dataLengthActual = data->GetDataLen();
-	string message = "Invalid card file. Card file should be " + to_string(gameInnerSize.first)
-		+ "x" + to_string(gameInnerSize.second) + " size and contain non-whitespace characters in place of walls";
+	string message = "Invalid card file. Card file should be " + to_string(gameInfo.gameInnerSize.first)
+		+ "x" + to_string(gameInfo.gameInnerSize.second) + " size and contain non-whitespace characters in place of walls";
 	Assert2(dataLength == dataLengthActual, message.c_str());
 	byteVector.assign(dataLength, (uchar)0);
 	data->ReadBytes(&byteVector[0], dataLengthActual);
 
-	uint8_t wallXIndex = wallsSize.first;
-	uint8_t wallYIndex = wallsSize.second;
+	uint8_t wallXIndex = gameInfo.wallsSize.first;
+	uint8_t wallYIndex = gameInfo.wallsSize.second;
 
 	for (uchar ch : byteVector) {
 		if (ch != '\n' && ch != '\r') {
@@ -125,9 +130,9 @@ set<Game::Snake::cell_type> Board::load(shared_ptr<Buffer> data) {
 
 			++wallXIndex;
 
-			if (wallXIndex == gameInnerSize.first + wallsSize.first) {
+			if (wallXIndex == gameInfo.gameInnerSize.first + gameInfo.wallsSize.first) {
 				++wallYIndex;
-				wallXIndex = wallsSize.first;
+				wallXIndex = gameInfo.wallsSize.first;
 			}
 		}
 	}
@@ -153,10 +158,10 @@ void Board::UpdateF(float theFrac) {
 
 				if (eventType == Snake::EVENT_PRISE_EAT) {
 					if (_snake->getPriseTypeActive() == Snake::SPEED) {
-						_dtStepCoefficient = priseSpeedMul;
+						_dtStepCoefficient = gameInfo.priseSpeedMul;
 					}
 					else {
-						_dtStepCoefficient = dtStepCoefficientDefault;
+						_dtStepCoefficient = gameInfo.dtStepCoefficientDefault;
 					}
 
 					auto priseParametersIt = _priseParameters.find(_snake->getPriseTypeActive());
@@ -164,7 +169,7 @@ void Board::UpdateF(float theFrac) {
 					if (priseParametersIt != _priseParameters.end()) {
 						_title = priseParametersIt->second.title;
 						_titleTimer.first = 0.f;
-						_titleTimer.second = priseActivePeriod; 
+						_titleTimer.second = gameInfo.priseActivePeriod;
 					}
 				}
 				else if (eventType == Snake::EVENT_PRISE_CREATE) {
@@ -175,8 +180,10 @@ void Board::UpdateF(float theFrac) {
 			}
 			else {
 				_titleTimer.first = 0.f;
-				_titleTimer.second = gameOverPeriod;
+				_titleTimer.second = gameInfo.gameOverPeriod;
 				_title = _stateParameters.at(_snake->getState());
+
+				_cellEndCausedColor = eventType == Snake::EVENT_WALL ? gameInfo.endCausedWallColor : gameInfo.endCausedSnakeColor;
 			}
 		}
 	}
@@ -194,7 +201,7 @@ void Board::UpdateF(float theFrac) {
 			else {
 				_titleDraw = false;
 				_snake->priseActiveEnd();
-				_dtStepCoefficient = dtStepCoefficientDefault;
+				_dtStepCoefficient = gameInfo.dtStepCoefficientDefault;
 			}
 		}
 		else {
@@ -229,12 +236,12 @@ void Board::UpdateF(float theFrac) {
 }
 
 void Board::Draw(Graphics* g) {
-	g->SetColor(backgroundColor);
+	g->SetColor(gameInfo.backgroundColor);
 	g->FillRect(0, 0, mWidth, mHeight);
 
 	g->Translate(_drawPosition.mX, _drawPosition.mY);
 	// стены
-	g->SetColor(wallColor);
+	g->SetColor(gameInfo.wallColor);
 
 	for (auto wall : _wallsPoly) {
 		g->PolyFill(&wall[0], wall.size());
@@ -248,11 +255,11 @@ void Board::Draw(Graphics* g) {
 
 		// змейка
 		if (!_snake->getSnake().empty()) {
-			g->SetColor(_snake->getState() == Snake::END ? snakeHeadEndColor : snakeHeadColor);
+			g->SetColor(_snake->getState() == Snake::END ? gameInfo.snakeHeadEndColor : gameInfo.snakeHeadColor);
 			auto snakeIt = _snake->getSnake().rbegin();
 			g->FillRect(Rect(snakeIt->first * _cellPixelSize, snakeIt->second * _cellPixelSize,
 				_cellPixelSize, _cellPixelSize));
-			g->SetColor(snakeColor);
+			g->SetColor(gameInfo.snakeColor);
 			++snakeIt;
 
 			while (snakeIt != _snake->getSnake().rend()) {
@@ -264,7 +271,7 @@ void Board::Draw(Graphics* g) {
 
 		// еда
 		if (_snake->getFood()) {
-			g->SetColor(foodColor);
+			g->SetColor(gameInfo.foodColor);
 			g->FillRect(Rect(_snake->getFood()->first * _cellPixelSize, _snake->getFood()->second * _cellPixelSize,
 				_cellPixelSize, _cellPixelSize));
 		}
@@ -282,12 +289,10 @@ void Board::Draw(Graphics* g) {
 			g->FillRect(Rect(_snake->getСellEndCaused()->first * _cellPixelSize,
 				_snake->getСellEndCaused()->second * _cellPixelSize, _cellPixelSize, _cellPixelSize));
 		}
-
-		
 	}
 
 	// тексты
-	g->SetColor(fontColor);
+	g->SetColor(Title::getColor());
 	g->SetFont(Title::getFont());
 
 	// очки
@@ -343,10 +348,10 @@ void Board::KeyDown(KeyCode theKey) {
 }
 
 void Board::reset() {
-	_stepTimer = make_pair(0.f, stepPeriod);
-	_priseDisappearTimer = make_pair(priseDisappearPeriod, priseDisappearPeriod);
+	_stepTimer = make_pair(0.f, gameInfo.stepPeriod);
+	_priseDisappearTimer = make_pair(gameInfo.priseDisappearPeriod, gameInfo.priseDisappearPeriod);
 	_title = _stateParameters.at(_snake->getState());
 	_titleDraw = true;
 	_priseDraw = false;
-	_dtStepCoefficient = dtStepCoefficientDefault;
+	_dtStepCoefficient = gameInfo.dtStepCoefficientDefault;
 }

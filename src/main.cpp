@@ -13,7 +13,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	try {
 		gHInstance = hInstance;
 		auto anApp = std::make_shared<GameApp>();
-		Assert2(anApp, "Failed to create SexyAppBase")
+		Assert2(anApp, "Failed to create SexyAppBase");
 		anApp->Init();
 		anApp->Start();
 	}
