@@ -354,4 +354,5 @@ void Board::reset() {
 	_titleDraw = true;
 	_priseDraw = false;
 	_dtStepCoefficient = gameInfo.dtStepCoefficientDefault;
+	_titleScore.setCaption(to_string(_snake->getScore()));
 }
