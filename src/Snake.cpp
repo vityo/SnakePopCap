@@ -227,7 +227,7 @@ Snake::EventType Snake::next() {
 		cell.first += _direction.first;
 		cell.second += _direction.second;
 
-		bool isEndByWall = _walls.find(cell) != _walls.end()
+		bool isEndByWall = binary_search(_walls.begin(), _walls.end(), cell)
 			|| cell.first < _wallsSize.first
 			|| cell.first > _wallsSize.first + gameInfo.gameInnerSize.first - 1
 			|| cell.second < _wallsSize.second
