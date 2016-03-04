@@ -1,7 +1,7 @@
-Илькун Виктор. Тестовое задание Boolat
+Илькун Виктор. Игра змейка
 
 Реализация:
-- реализовано тестовое задание Boolat https://drive.google.com/file/d/0B0JzYnpdRNuGZVhhQ24tSTVHMG8/view?usp=sharing 
+- тз https://drive.google.com/file/d/0B0JzYnpdRNuGZVhhQ24tSTVHMG8/view?usp=sharing 
 а также:
 - реализована поддержка файла со всеми гибкими настройками игры properties/gameinfo.xml
 - реализована поддержка стандартного файла с ресурсами properties/resources.xml (содержит информацию о шрифте)
