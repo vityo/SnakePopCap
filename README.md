@@ -1,2 +1,0 @@
-# SnakePopCap
-Snake, PopCap
