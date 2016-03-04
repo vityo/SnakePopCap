@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<Interface>
+	<!-- заголовок в начале игры -->
+	<titleStart text="Press any arrow keys to start!" />
+	<!-- заголовок в конце игры -->
+	<titleEnd text="GAME OVER. Press any key to restart!" />
+	<!-- текст приза очков -->
+	<titlePriseScore text="SCORE x3!" />
+	<!-- текст приза обрезки -->
+	<titlePriseSlice text="SLICE!" />
+	<!-- текст приза скорости -->
+	<titlePriseSpeed text="SPEED!" />
+	<!-- id шрифта -->
+	<fontId text="FONT_DEFAULT" />
+	<!-- цвет текста -->
+	<fontColor r="255" g="255" b="255" />
+	<!-- цвет приза очков -->
+	<priseScoreColor r="255" g="255" b="0" />
+	<!-- цвет приза обрезки -->
+	<priseSliceColor r="0" g="255" b="0" />
+	<!-- цвет приза скорости -->
+	<priseSpeedColor r="0" g="255" b="255" />
+	<!-- цвет фона -->
+	<backgroundColor r="32" g="32" b="32" />
+	<!-- цвет стен -->
+	<wallColor r="200" g="0" b="0" />
+	<!-- цвет еды для змейки -->
+	<foodColor r="0" g="0" b="200" />
+	<!-- цвет головы змейки -->
+	<snakeHeadColor r="0" g="200" b="0" />
+	<!-- цвет змейки -->
+	<snakeColor r="0" g="150" b="0" />
+	<!-- цвет головы змейки, если ударилась -->
+	<snakeHeadEndColor r="0" g="100" b="0" />
+	<!-- цвет стены, в которую врезались -->
+	<endCausedWallColor r="100" g="0" b="0" />
+	<!-- цвет ячейки змейки, в которую врезались -->
+	<endCausedSnakeColor r="0" g="50" b="0" />
+	<!-- шаг змейки происходит за это время в секундах -->
+	<stepPeriod value="0.3" />
+	<!-- коэффициент времени по умолчанию -->
+	<dtStepCoefficientDefault value="1.0" />
+	<!-- коэффициент приза времени -->
+	<priseSpeedMul value="2.0" />
+	<!-- период моргания текста после завершения игры, нельзя нажимать клавиши -->
+	<gameOverPeriod value="4.0" />
+	<!-- период исчезновения приза -->
+	<priseDisappearPeriod value="7.0" />
+	<!-- период активности приза -->
+	<priseActivePeriod value="10.0" />
+</Interface>
+<Snake>
+	<!-- толщина наружных стен -->
+	<wallsSize width="1" height ="1" />
+	<!-- внутренние размеры игрового поля (без стен) -->
+	<gameInnerSize width="16" height ="13" />
+	<!-- размер, с которым рождается змейка -->
+	<snakeFirstSize value="3" />
+	<!-- коэффициент приза очков -->
+	<priseScoreMul value="3" />
+	<!-- обрезаем змейку на столько ячеек после взятия приза -->
+	<priseSliceCount value="1" />
+	<!-- обрезаем змейку каждый раз когда берет еду или приз во время приза обрезки -->
+	<priseSlicePerFood value="2" />
+	<!-- минимальный размер змейки после обрезки -->
+	<snakeMinSizeAfterSlice value="1" />
+	<!-- очков за еду -->
+	<scoreByFood value="10" />
+	<!-- столько должны съесть еды, прежде чем появится приз -->
+	<foodCountBeforePrise value="2" />
+	<!-- коэффициент получаемых очков по умолчанию -->
+	<scoreCoefficientDefault value="1" />
+	<!-- сколько раз подряд может быть один и тот же тип приза -->
+	<priseSameTypeCountMax value="1" />
+</Snake>
